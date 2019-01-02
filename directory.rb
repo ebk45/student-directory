@@ -17,10 +17,8 @@ def print_header
 end
 
 def print(students)
-  count = 1
-  students.each do |student|
-    puts "#{count}. #{student[:name]} (#{student[:cohort]} cohort)"
-    count += 1
+  students.each_with_index do | (student, cohort), index|
+    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
