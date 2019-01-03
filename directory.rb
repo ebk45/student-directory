@@ -13,13 +13,14 @@ def input_students
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "------------"
+  puts "The students of Villains Academy", "------------"
 end
 
-def print(names)
-  names.each_with_index do | student, index |
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+def print(students)
+  count = 0
+  while count < students.count
+    puts "#{count + 1}. #{students[count][:name]} (#{students[count][:cohort]} cohort)"
+    count += 1
   end
 end
 
@@ -36,12 +37,21 @@ def print_by_initial(students)
   }
 end
 
+def print_under_12_chars(students)
+  count = 1
+  students.each {|student|
+    if student[:name].length < 12
+      puts "#{count}: #{student[:name]} (#{student[:cohort]} cohort)"
+      count += 1
+    end
+  }
+end
+
 def print_footer(students)
-  puts "Overall, we have #{students.count} great students"
+  puts "There are #{students.count} students with names under 12 characters."
+  puts "This includes punctuation and spacing."
 end
 
 students = input_students
 #returns array of students that will be the argument in the following methods
-print_header
-print_by_initial(students)
-print_footer(students)
+print(students)
