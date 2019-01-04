@@ -5,12 +5,21 @@ def input_students
   name = gets.chomp.upcase
   while !name.empty? do
       puts "Please enter the student's cohort:".center(80)
-      cohort = gets.chomp.capitalize
+      while true do
+        current_cohorts = [
+          "January", "February", "March", "April",
+          "May", "June", "July", "August",
+          "September", "October", "November", "December"
+        ]
+        cohort = gets.chomp
+        break if current_cohorts.include?(cohort)
+          puts "That is not a current cohort, please try again."
+      end
       puts "Please enter the student's age:".center(80)
       age = gets.chomp
       puts "Please enter the student's country of birth:".center(80)
       country = gets.chomp.capitalize
-      students << {name: name, cohort: cohort,
+      students << {name: name, cohort: cohort.to_sym,
                    age: age, country: country}
       puts "Now we have #{students.count} students".center(80)
       #we ask the user for another name input because name
@@ -34,27 +43,19 @@ def print(students)
   end
 end
 
-def print_by_initial(students)
-  puts "You can search the directory by a students first initial.".center(80)
-  puts "Please enter an initial:".center(80)
-  initial_input = gets.chomp
-  count = 1
-  students.each {|student|
-    if student[:name][0] == initial_input.upcase
-      puts "#{count + 1}. #{students[count][:name]}, #{students[count][:age]} (#{students[count][:cohort]} Cohort) - #{students[count][:country]}".center(80)
-      count += 1
+def print_by_cohort(students)
+  cohort_array = []
+  students.map { |student| cohort_array << student[:cohort] }
+  count = 0
+  while cohort_array.length > count do
+    puts "#{cohort_array[count]} Cohort: ".center(80)
+    students.each do |student|
+      if student[:cohort] == cohort_array[count]
+        puts "#{student[:name]}, #{student[:age]} - #{student[:country]}".center(80)
+      end
     end
-  }
-end
-
-def print_under_12_chars(students)
-  count = 1
-  students.each {|student|
-    if student[:name].length < 12
-      puts "#{count + 1}. #{students[count][:name]}, #{students[count][:age]} (#{students[count][:cohort]} Cohort) - #{students[count][:country]}".center(80)
-      count += 1
-    end
-  }
+    count += 1
+  end
 end
 
 def print_footer(students)
@@ -64,4 +65,4 @@ end
 
 students = input_students
 #returns array of students that will be the argument in the following methods
-print(students)
+print_by_cohort(students)
