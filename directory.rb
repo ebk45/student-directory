@@ -2,7 +2,7 @@ def input_students
   puts "Please enter the names of the students:".center(80)
   puts "To finish, just hit return twice".center(80)
   students = []
-  name = gets.chomp.upcase
+  name = gets.chop.upcase
   while !name.empty? do
       puts "Please enter the student's cohort:".center(80)
       while true do
@@ -11,14 +11,14 @@ def input_students
           "May", "June", "July", "August",
           "September", "October", "November", "December"
         ]
-        cohort = gets.chomp
+        cohort = gets.chop
         break if current_cohorts.include?(cohort)
           puts "That is not a current cohort, please try again."
       end
       puts "Please enter the student's age:".center(80)
       age = gets.chomp
       puts "Please enter the student's country of birth:".center(80)
-      country = gets.chomp.capitalize
+      country = gets.chop.capitalize
       students << {name: name, cohort: cohort.to_sym,
                    age: age, country: country}
       if students.count == 1
@@ -28,7 +28,7 @@ def input_students
       end
       #we ask the user for another name input because name
       #is currently defined outside the loop
-      name = gets.chomp.upcase
+      name = gets.chop.upcase
   end
   #this returns the array of student info hashes the user has inputted
   students
@@ -50,8 +50,9 @@ end
 def print_by_cohort(students)
   cohort_array = []
   students.map { |student| cohort_array << student[:cohort] }
+  newcohort_array = cohort_array.uniq
   count = 0
-  while cohort_array.length > count do
+  while count < newcohort_array.length do
     puts "#{cohort_array[count]} Cohort: ".center(80)
     students.each do |student|
       if student[:cohort] == cohort_array[count]
