@@ -1,14 +1,23 @@
 def input_students
   puts "Please enter the names of the students: "
-  puts "To finish, just hit enter/return twice"
+  puts "To finish, just hit return twice"
   students = []
-  name = gets.chomp
+  name = gets.chomp.capitalize
   while !name.empty? do
-    students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
-    name = gets.chomp
+      puts "Please enter the student's cohort: "
+      cohort = gets.chomp.capitalize
+      puts "Please enter the student's age: "
+      age = gets.chomp
+      puts "Please enter the student's country of birth: "
+      country = gets.chomp.capitalize
+      students << {name: name, cohort: cohort,
+                   age: age, country: country}
+      puts "Now we have #{students.count} students"
+      #we ask the user for another name input because name
+      #is currently defined outside the loop
+      name = gets.chomp.capitalize
   end
-  #this returns the array of the students the user has inputted
+  #this returns the array of student info hashes the user has inputted
   students
 end
 
@@ -19,7 +28,7 @@ end
 def print(students)
   count = 0
   while count < students.count
-    puts "#{count + 1}. #{students[count][:name]} (#{students[count][:cohort]} cohort)"
+    puts "#{count + 1}. #{students[count][:name]}, #{students[count][:age]} (#{students[count][:cohort]} cohort) - #{students[count][:country]}"
     count += 1
   end
 end
@@ -31,7 +40,7 @@ def print_by_initial(students)
   count = 1
   students.each {|student|
     if student[:name][0] == initial_input.upcase
-      puts "#{count}: #{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{count + 1}. #{students[count][:name]}, #{students[count][:age]} (#{students[count][:cohort]}) - #{students[count][:country]}"
       count += 1
     end
   }
@@ -41,7 +50,7 @@ def print_under_12_chars(students)
   count = 1
   students.each {|student|
     if student[:name].length < 12
-      puts "#{count}: #{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{count + 1}. #{students[count][:name]}, #{students[count][:age]} (#{students[count][:cohort]}) - #{students[count][:country]}"
       count += 1
     end
   }
