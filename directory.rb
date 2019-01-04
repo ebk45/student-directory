@@ -1,28 +1,36 @@
+@students = []
+
 def interactive_menu
-  students = []
   loop do
-  # 1. print menu and ask user what they want to do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit" #because we're adding more items later
-
-    selection = gets.chomp
-
-    case selection
-    when "1"
-      students = input_students
-    when "2"
-      print_header
-      print(students)
-      print_footer(students)
-    when "3"
-      exit #this will cause the program to terminate
-    else
-      puts "I don't know what you meant, try again"
-    end
+    print_menu
+    process(gets.chomp)
   end
 end
 
+def process(selection)
+  case selection
+  when "1"
+    @students = input_students
+  when "2"
+    show_students
+  when "9"
+    exit #this will cause the program to terminate
+  else
+    puts "I don't know what you meant, try again"
+  end
+end
+
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "9. Exit" #because we're adding more items later
+end
+
+def show_students
+  print_header
+  prints_students_list(@students)
+  print_footer(@students)
+end
 
 def input_students
   puts "Please enter the names of the students:".center(80)
@@ -65,7 +73,7 @@ def print_header
   puts "---------------------------------".center(80)
 end
 
-def print(students)
+def prints_students_list(students)
   count = 0
   while count < students.count
     puts "#{count + 1}. #{students[count][:name]}, #{students[count][:age]} (#{students[count][:cohort]} Cohort) - #{students[count][:country]}".center(80)
@@ -91,8 +99,11 @@ def print_by_cohort(students)
 end
 
 def print_footer(students)
-  puts "There are #{students.count} students with names under 12 characters.".center(80)
-  puts "This includes punctuation and spacing.".center(80)
+  if students.count == 1
+    puts "There is #{students.count} great student.".center(80)
+  else students.count > 1
+    puts "There are #{students.count} great students.".center(80)
+  end
 end
 
 interactive_menu
