@@ -21,7 +21,11 @@ def input_students
       country = gets.chomp.capitalize
       students << {name: name, cohort: cohort.to_sym,
                    age: age, country: country}
-      puts "Now we have #{students.count} students".center(80)
+      if students.count == 1
+        puts "Now we have #{students.count} student".center(80)
+      else students.count > 1
+        puts "Now we have #{students.count} students".center(80)
+      end
       #we ask the user for another name input because name
       #is currently defined outside the loop
       name = gets.chomp.upcase
