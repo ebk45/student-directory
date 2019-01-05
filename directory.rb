@@ -12,7 +12,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
   puts "4. Load the list from students.csv"
-  puts "9. Exit" #because we're adding more items later
+  puts "9. Exit"
 end
 
 def process(selection)
@@ -111,8 +111,10 @@ def print_footer(students)
 end
 
 def save_students
+  puts "What would you like to name your file?"
+  filename = STDIN.gets.chop
   # open new file to write in
-  file = File.open("students.csv", "w")
+  file = File.open("#{filename}.csv", "w")
   #iterate over students array
   @students.each do |student|
     student_data = [student[:name], student[:cohort], [student[:age]], [student[:country]]]
@@ -120,6 +122,7 @@ def save_students
     file.puts csv_line
   end
   file.close
+  puts "Student List saved to #{filename}.csv"
 end
 
 def try_load_students
@@ -135,12 +138,21 @@ def try_load_students
 end
 
 def load_students(filename = "students.csv")
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-  name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+  puts "Which csv file would you like to open?"
+  filename = STDIN.gets.chop.downcase
+  return if filename.nil?
+  if File.exists?("#{filename}.csv")
+    file = File.open("#{filename}.csv", "r")
+    file.readlines.each do |line|
+      name, cohort, age, country = line.chomp.split(',')
+      @students << {name: name, cohort: cohort.to_sym, age: age, country: country}
+    end
+    file.close
+  else
+    puts "Sorry, #{filename} doesn't exist."
   end
-  file.close
+  puts "The #{filename}.csv file has been loaded successfully."
+  puts "To view, select option 2."
 end
 
 try_load_students
