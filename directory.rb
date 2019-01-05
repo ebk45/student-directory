@@ -151,7 +151,7 @@ def load_on_startup
 end
 
 def load_students_from_file(filename = "students.csv")
-  CSV.foreach(filename) do |line|
+  CSV.foreach(filename) do |line| #puts each line into new array
     input_student_array(line[0], line[1], line[2], line[3])
   end
   puts "The #{filename} file has been loaded successfully."
