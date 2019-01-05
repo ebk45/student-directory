@@ -1,10 +1,18 @@
-@students = []
+@students = [] #global array for student data
 
 def interactive_menu
   loop do
     print_menu
     process(STDIN.gets.chomp)
   end
+end
+
+def print_menu
+  puts "1. Input the students"
+  puts "2. Show the students"
+  puts "3. Save the list to students.csv"
+  puts "4. Load the list from students.csv"
+  puts "9. Exit" #because we're adding more items later
 end
 
 def process(selection)
@@ -18,18 +26,10 @@ def process(selection)
   when "4"
     load_students
   when "9"
-    exit #this will cause the program to terminate
+    exit
   else
     puts "I don't know what you meant, try again"
   end
-end
-
-def print_menu
-  puts "1. Input the students"
-  puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
-  puts "9. Exit" #because we're adding more items later
 end
 
 def show_students
@@ -51,14 +51,14 @@ def input_students
           "May", "June", "July", "August",
           "September", "October", "November", "December"
         ]
-        cohort = gets.chop
+        cohort = STDIN.gets.chop
         break if current_cohorts.include?(cohort)
           puts "That is not a current cohort, please try again."
       end
       puts "Please enter the student's age:".center(80)
-      age = gets.chomp
+      age = STDIN.gets.chop
       puts "Please enter the student's country of birth:".center(80)
-      country = gets.chop.capitalize
+      country = STDIN.gets.chop.capitalize
       students << {name: name, cohort: cohort.to_sym,
                    age: age, country: country}
       if students.count == 1
@@ -66,9 +66,7 @@ def input_students
       else students.count > 1
         puts "Now we have #{students.count} students".center(80)
       end
-      #we ask the user for another name input because name
-      #is currently defined outside the loop
-      name = gets.chop.upcase
+      name = STDIN.gets.chop.upcase
   end
   #this returns the array of student info hashes the user has inputted
   students
@@ -106,9 +104,9 @@ end
 
 def print_footer(students)
   if students.count == 1
-    puts "There is #{students.count} great student.".center(80)
+    puts "Overall, we have #{students.count} great student.".center(80)
   else students.count > 1
-    puts "There are #{students.count} great students.".center(80)
+    puts "Overall, we have #{students.count} great students.".center(80)
   end
 end
 
